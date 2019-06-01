@@ -45,6 +45,11 @@ public class HomeController {
         return map;
     }
 
+    @GetMapping("/detail")
+    public String detailPage(){
+        return "user/detail";
+    }
+
     @GetMapping("/chat")
     public String chatPage(){
         return "user/chat";

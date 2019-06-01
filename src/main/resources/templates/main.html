@@ -5,27 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
     <link rel="stylesheet" href="/vendor/bootstrap.min.css">
     <link rel="stylesheet" href="/css/main/main.css">
+
+    <style>
+        .Rectangle-Copy-2 {
+            width: 100%;
+            height: 10vh;
+            border: solid 1px #979797;
+            background-image: url("/img/desktop-topbar.jpg");
+        }
+
+        .main-table{
+            /*padding-right: 30%;*/
+        }
+
+    </style>
+
     <title>Document</title>
 </head>
 
 <body>
+<div class="Rectangle-Copy-2"></div>
 
-    <h1>Basic Table</h1>
     <button style="display:none;" type="button" id="collapser">collapse</button>
-
+<div class="main-table">
     <table class="table mb-0">
-        <thead>
-            <th scope="col">1</th>
-            <th scope="col">2t</th>
-            <th scope="col">3</th>
-            <th scope="col">4</th>
-            <th scope="col">5</th>
-            <th scope="col">6</th>
-        </thead>
-
-
         <tbody>
             <table class="table" id="basic">
                 <thead class="thead-dark">
@@ -36,72 +43,81 @@
                     <th scope="col">총인원</th>
                 </thead>
                 <tbody id="test">
+
                     {{#each userList}}
-                    <tr data-node-id="{{groupId}}" id="node-{{groupId}}" onclick="onclickNode(1, '{{groupId}}')">
-                        <td>마루180</td>
-                        <td>{{logitude}}{{latitude}}</td>
-                        <td>{{regdate}}</td>
+                    <tr data-node-id="{{@index}}">
+                        <td><span class="tree-icon" style="margin-left: 0px;"></span>건물명</td>
+                        <td>127.03883537.495707</td>
+                        <td>2019-06-01T18:06:31.926511</td>
                         <td>0</td>
                         <td>1</td>
                     </tr>
                     {{/each}}
-
-
-                    <!--<tr data-node-id="2">-->
-                        <!--<td>2</td>-->
-                        <!--<td>text of 2</td>-->
-                        <!--<td>text of 2</td>-->
-                    <!--</tr>-->
-                    <!--<tr data-node-id="2.1" data-node-pid="2">-->
-                        <!--<td>2.1</td>-->
-                        <!--<td>text of 2.1</td>-->
-                        <!--<td>text of 2.1</td>-->
-                    <!--</tr>-->
-                    <!--<tr data-node-id="2.2" data-node-pid="2">-->
-                        <!--<td>2.2</td>-->
-                        <!--<td>text of 2.2</td>-->
-                        <!--<td>text of 2.2</td>-->
-                    <!--</tr>-->
-
                 </tbody>
             </table>
         </tbody>
     </table>
-
+</div>
     <script src="/vendor/jquery-3.2.1.min.js"></script>
+
     <script src="/vendor/simpleTreeTable/tree.js"></script>
-    <script src="/js/main/main.js"></script>
 
     <script>
-        // let flag = true;
-        function onclickNode(nodeNo, groupId){
-            $.ajax({
-                type:'GET',
-                url:'/groups/'+groupId,
-                success: function(data) {
-                    const len = $('#test').children()
-                    console.log(len);
-                    console.log(data);
-                    console.log(data[0].regdate)
-                    var hText = '';
-                    for(let i = 0, len = data.length; i < data.length; i++){
-                        hText += '<tr data-node-id="'+groupId+'.'+(i+1)+'" data-node-pid="'+groupId+'">'
-                        hText += '<td>'+data[0].regdate+'</td>';
-                        hText +=    '<td>text of 1.1</td>'
-                        hText += '</tr>'
 
+        let isClick = false;
+        
+        $(document).ready(function(){
+            let $target = null, nodeId = null;
+            $('#basic').simpleTreeTable({
+                collapser: $('#collapser')
+            });
+
+            $('#test').on('click', function(e) {
+                e.preventDefault();
+                if (isClick) {
+                    $target = $(e.target.parentElement);
+                    if ($target.next().attr('data-node-id').split('.').length === 2) {
+
+                        $target.next().remove()
+                    }else{
+                        isClick = true;
                     }
+                    isClick = false;
+                } else {
 
-                    const $selector = $('#node-'+groupId);
-                    // if ( flag ) {
-                    //     $selector.append(hText);
-                    //     flag = false
-                    //
-                    // }
-                    $('#node-'+groupId).after(hText);
+                    $target = $(e.target.parentElement);
+                    nodeId = 1
+                    var groupId = 1
+                    $.ajax({
+                        method: 'get',
+                        url : ['/groups/', nodeId].join(''),
+                        success: function(data) {
+                            var hText = 0;
+                            for (let i = 0, len = data.length; i < len; i++) {
+                                hText += '<tr data-node-id="' + groupId + '.' + (i) + '" data-node-pid="' + groupId + '">'
+                                hText += '<td>' + data[0].regdate + '</td>';
+                                hText += '<td>127.03883537.495707</td>';
+                                hText += '<td>2019-06-01T18:06:31.926511</td>';
+                                hText += '<td>0</td>';
+                                hText += '<td>1</td>';
+                                hText += '</tr>'
+                            }
+                            if ($target.next()) {
+                                if ($target.next().attr('data-node-id') === '1') {
+                                    $target.after(hText);
+                                }
+                            } else {
+                                if ( $target.attr('data-node-id') === '1') {
+                                    $target.after(hText);
+                                }
+                            }
+                            isClick = true;
+                        }
+                    });
                 }
-            })
-        }
+            });
+        })
+
     </script>
 
 </body>

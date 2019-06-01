@@ -9,8 +9,10 @@
 
 
     <style>
-        table { border: 1px solid #444444; border-collapse: collapse; }
-    
+        table {
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
     </style>
 </head>
 
@@ -18,8 +20,8 @@
 
 
 
-        <button type="button" id="expander">Expand All</button>
-        <!-- <button type="button" id="collapser">Collapse All</button> -->
+    <button type="button" id="expander">Expand All</button>
+    <!-- <button type="button" id="collapser">Collapse All</button> -->
 
     <table id="basic">
         <tr data-node-id="1">
@@ -66,7 +68,7 @@
 
 
 
-    
+
     <script>
         const getUUID = () => {
             const getRandString = () => ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
@@ -80,7 +82,7 @@
                 getRandString()
             ].join('');
         };
-        window.addEventListener('load', function() {
+        window.addEventListener('load', function () {
             let level = null;
             const url = 'ws://192.168.0.152:8080/websocket';
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
@@ -95,37 +97,25 @@
                     "gps": null
                 }
             };
-            
+
+            ws.addEventListener('open', function () {
 
 
-
-            
-
-
-            ws.addEventListener('open', function(){
-
-                
-                document.getElementById('expander').addEventListener('click', function(){
+                document.getElementById('expander').addEventListener('click', function () {
                     if ( ! isIOS ) {
-                        navigator.getBattery().then(function(battery) {
+                        navigator.getBattery().then(function (battery) {
                             dummy.my_info.battery = battery.level * 100;
-                            
                         });
-
                     }
 
-
-
-                    navigator.geolocation.getCurrentPosition((pos) => {
-
-
-                        dummy.my_info.gps = [
-                            pos.coords.latitude, pos.coords.longitude
-                        ].join('');
-                    });
-
-
-
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            dummy.my_info.gps = [
+                                pos.coords.latitude, ' / ', pos.coords.longitude
+                            ].join('')
+                        });
+                    }
+                    
                     alert(dummy.my_info.gps);
 
 
@@ -150,13 +140,13 @@
                     // alert(level);
                     // ws.send(dummy);
                 });
-                
-                ws.addEventListener('message', function(resp) {
+
+                ws.addEventListener('message', function (resp) {
                     console.log(esp);
-                    if ( resp.isTrusted ) {
+                    if (resp.isTrusted) {
                         data = resp.data;
                     }
-                    
+
                     // console.log(JSON.parse(esp.data));
                 });
             });

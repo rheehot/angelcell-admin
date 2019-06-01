@@ -48,5 +48,6 @@ dependencies {
             'com.github.jknack:handlebars-humanize:4.0.7',
             'com.github.jknack:handlebars-markdown:4.0.7'
 
+    compile 'org.jsoup:jsoup:1.10.3'
 
 }

@@ -1,7 +1,7 @@
 package com.angelhack.angelcell.biz.home;
 
-import com.angelhack.angelcell.domain.home.Location;
-import com.angelhack.angelcell.domain.home.LocationRepository;
+import com.angelhack.angelcell.domain.home.Users;
+import com.angelhack.angelcell.domain.home.UsersRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -19,10 +19,10 @@ import java.util.List;
 @Log4j2
 public class HomeService {
 
-    private LocationRepository locationRepository;
+    private UsersRepository locationRepository;
 
     @Transactional(readOnly = true)
-    public List<Location> getLocationList() {
+    public List<Users> getUserDataList() {
         return locationRepository.findAll();
     }
 

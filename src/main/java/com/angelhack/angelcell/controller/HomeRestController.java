@@ -24,6 +24,6 @@ public class HomeRestController {
     @PostMapping("/")
     public String mainPage(Model model) {
         model.addAttribute("userList", homeService.getUserDataList());
-        return "main";
+        return homeService.getUserDataList().toString();
     }
 }

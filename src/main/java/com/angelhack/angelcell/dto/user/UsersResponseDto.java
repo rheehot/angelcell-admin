@@ -21,9 +21,9 @@ public class UsersResponseDto {
 
     private Long group;
 
-    private Long latitude;
+    private String latitude;
 
-    private Long longitude;
+    private String longitude;
 
     private String moddate;
 

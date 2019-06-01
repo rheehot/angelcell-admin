@@ -35,6 +35,8 @@ dependencies {
 
     compile 'ch.qos.logback:logback-classic:1.1.2'
     compile 'ch.qos.logback:logback-core:1.1.2'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.5.0'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.5.0'
 
     runtime 'org.postgresql:postgresql'
 

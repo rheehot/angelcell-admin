@@ -1,10 +1,7 @@
 package com.angelhack.angelcell.domain.home;
 
 import com.angelhack.angelcell.domain.BaseTimeEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -17,6 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
+@ToString
 public class Users extends BaseTimeEntity {
 
     @Id
@@ -28,12 +26,12 @@ public class Users extends BaseTimeEntity {
 
     private Long groups;
 
-    private Long latitude;
+    private String latitude;
 
-    private Long logitude;
+    private String logitude;
 
     @Builder
-    public Users(String uuid, Long groups, Long latitude, Long logitude) {
+    public Users(String uuid, Long groups, String latitude, String logitude) {
         this.uuid = uuid;
         this.groups = groups;
         this.latitude = latitude;

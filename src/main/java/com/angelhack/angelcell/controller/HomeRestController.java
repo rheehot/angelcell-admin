@@ -2,11 +2,11 @@ package com.angelhack.angelcell.controller;
 
 import com.angelhack.angelcell.biz.home.HomeService;
 import com.angelhack.angelcell.domain.home.Users;
-import com.angelhack.angelcell.dto.user.MessageSaveDto;
+import com.angelhack.angelcell.dto.MessageSaveDto;
+import com.angelhack.angelcell.dto.MessageSendDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -28,5 +28,12 @@ public class HomeRestController {
         users.setNum(num);
         dto.setNum(users);
         return homeService.regMessageByNum(dto);
+    }
+
+    @PostMapping("/users/{num}/send")
+    public int sendMessage(@PathVariable("num")Long num){
+        int groupCount = homeService.getUserCountByGroupId(num);
+        log.debug("$$$"+groupCount);
+        return 0;
     }
 }

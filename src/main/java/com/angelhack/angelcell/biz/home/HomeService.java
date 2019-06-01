@@ -4,7 +4,7 @@ import com.angelhack.angelcell.domain.home.Message;
 import com.angelhack.angelcell.domain.home.MessageRepository;
 import com.angelhack.angelcell.domain.home.Users;
 import com.angelhack.angelcell.domain.home.UsersRepository;
-import com.angelhack.angelcell.dto.user.MessageSaveDto;
+import com.angelhack.angelcell.dto.MessageSaveDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,13 @@ public class HomeService {
         return messageRepository.findByNum(users);
     }
 
+    @Transactional
     public Long regMessageByNum(MessageSaveDto dto) {
         return messageRepository.save(dto.toEntity()).getIdx();
+    }
+
+    @Transactional
+    public int getUserCountByGroupId(Long groupno) {
+        return usersRepository.getUserCountByGroupId(groupno);
     }
 }

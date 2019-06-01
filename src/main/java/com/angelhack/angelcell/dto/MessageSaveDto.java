@@ -1,4 +1,4 @@
-package com.angelhack.angelcell.dto.user;
+package com.angelhack.angelcell.dto;
 
 import com.angelhack.angelcell.domain.home.Message;
 import com.angelhack.angelcell.domain.home.Users;
@@ -13,14 +13,14 @@ import lombok.Setter;
 public class MessageSaveDto {
 
     private Users num;
-    private String uuid;
+    private String hpno;
     private String msg;
     private String host;
 
     @Builder
-    public MessageSaveDto(Users num, String uuid, String msg, String host) {
+    public MessageSaveDto(Users num, String hpno, String msg, String host) {
         this.num = num;
-        this.uuid = uuid;
+        this.hpno = hpno;
         this.msg = msg;
         this.host = host;
     }
@@ -28,7 +28,7 @@ public class MessageSaveDto {
     public Message toEntity() {
         return Message.builder()
                 .num(num)
-                .uuid(uuid)
+                .hpno(hpno)
                 .msg(msg)
                 .host(host)
                 .build();

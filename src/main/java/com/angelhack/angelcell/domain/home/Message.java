@@ -23,16 +23,20 @@ public class Message extends BaseTimeEntity {
     @ManyToOne
     private Users num;
 
-    private String uuid;
+    private String phno;
+
+    /* general, notice */
+    private String target;
 
     private String msg;
 
     private String host;
 
     @Builder
-    public Message(Users num, String uuid, String host, String msg) {
+    public Message(Users num, String hpno, String target, String host, String msg) {
         this.num = num;
-        this.uuid = uuid;
+        this.phno = hpno;
+        this.target = target;
         this.host = host;
         this.msg = msg;
     }

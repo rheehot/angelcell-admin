@@ -1,6 +1,7 @@
 package com.angelhack.angelcell.domain.home;
 
 import com.angelhack.angelcell.domain.BaseTimeEntity;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@ToString
+@EqualsAndHashCode(exclude = "message", callSuper = false)
 public class Users extends BaseTimeEntity {
 
     @Id
@@ -33,6 +34,7 @@ public class Users extends BaseTimeEntity {
     private String logitude;
 
     @OneToMany(mappedBy = "num", cascade = {CascadeType.ALL})
+    @JsonIgnoreProperties("num")
     private Set<Message> message = new HashSet<>();
 
     @Builder

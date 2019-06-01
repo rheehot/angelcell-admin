@@ -17,137 +17,127 @@
 </head>
 
 <body>
-
-
-
+    
+    <ul id="test">
+        <li>3322님</li>
+        <li>2323님</li>
+        <li>ㅁㄴ님</li>
+    </ul>
+    
+    <!-- <input type="text" id="asdf"> -->
     <button type="button" id="expander">Expand All</button>
-    <!-- <button type="button" id="collapser">Collapse All</button> -->
-
-    <table id="basic">
-        <tr data-node-id="1">
-            <td>1</td>
-            <td>text of 1</td>
-        </tr>
-        <tr data-node-id="1.1" data-node-pid="1">
-            <td>1.1</td>
-            <td>text of 1.1</td>
-        </tr>
-        <tr data-node-id="1.1.1" data-node-pid="1.1">
-            <td>1.1.1</td>
-            <td>text of 1.1.1</td>
-        </tr>
-        <tr data-node-id="1.1.2" data-node-pid="1.1">
-            <td>1.1.2</td>
-            <td>text of 1.1.2</td>
-        </tr>
-        <tr data-node-id="1.2" data-node-pid="1">
-            <td>1.2</td>
-            <td>text of 1.2</td>
-        </tr>
-        <tr data-node-id="1.2.1" data-node-pid="1.2">
-            <td>1.2.1</td>
-            <td>text of 1.2.1</td>
-        </tr>
-        <tr data-node-id="1.2.2" data-node-pid="1.2">
-            <td>1.2.2</td>
-            <td>text of 1.2.2</td>
-        </tr>
-        <tr data-node-id="2">
-            <td>2</td>
-            <td>text of 2</td>
-        </tr>
-        <tr data-node-id="2.1" data-node-pid="2">
-            <td>2.1</td>
-            <td>text of 2.1</td>
-        </tr>
-        <tr data-node-id="2.2" data-node-pid="2">
-            <td>2.2</td>
-            <td>text of 2.2</td>
-        </tr>
-    </table>
-
-
-
-
+    
     <script>
-        const getUUID = () => {
-            const getRandString = () => ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
-            return [
-                getRandString(), getRandString(),
-                '-', getRandString(),
-                '-', getRandString(),
-                '-', getRandString(),
-                '-', getRandString(),
-                getRandString(),
-                getRandString()
-            ].join('');
-        };
-        window.addEventListener('load', function () {
-            let level = null;
-            const url = 'ws://192.168.0.152:8080/websocket';
-            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const ws = new WebSocket(url);
-            let dummy = {
-                "sequence_id": getUUID(),
-                "type": "query",
-                "query_type": "info",
-                "my_info": {
-                    "battery": null,
-                    "is_online": false,
-                    "gps": null
-                }
-            };
 
+
+
+
+// // update
+// if ( navigator.onLine ) {
+//     window.addEventListener('offline', function(){
+//         // sendMessage
+//     });
+
+// } else {
+//     window.addEventListener('online', function(){
+//         // sendMessage
+//     });
+// }
+
+
+
+
+
+
+// navigator.geolocation.watchPosition((pos) => {
+    
+// });
+
+
+
+
+
+
+        window.addEventListener('load', function () {
+            const generateData = () => {
+
+                const getUUID = () => {
+                const getRandString = () => ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+                    return [
+                        getRandString(), getRandString(),
+                        '-', getRandString(),
+                        '-', getRandString(),
+                        '-', getRandString(),
+                        '-', getRandString(),
+                        getRandString(),
+                        getRandString()
+                    ].join('');
+                };
+
+                const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && ! window.MSStream;
+
+                let dummy = {
+                    "sequence_id": getUUID(),
+                    "type": "query",
+                    "query_type": "info",
+                    "my_info": {
+                        "battery": null,
+                        "is_online": navigator.onLine,
+                        "gps": null
+                    }
+                };
+
+                if ( ! isIos ) {
+                    (async(nav) => {
+                        const bet = await nav.getBattery();
+                        dummy.my_info.battery = bet.level * 100;
+                    })(navigator)
+                }
+                
+                if ( navigator.geolocation ) {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        dummy.my_info.gps = [
+                            pos.coords.latitude, ',', pos.coords.longitude
+                        ].join('');
+                    });
+                }
+                
+                if ( ! dummy.my_info.gps ) {
+                    dummy.my_info.gps = "37.495470,127.038855";
+                }
+                return dummy;
+            };
+            
+
+            const url = 'ws://192.168.0.152:8080/websocket';
+            const ws = new WebSocket(url);
+            
             ws.addEventListener('open', function () {
 
+                let data = generateData();
 
+
+                ws.send(JSON.stringify({
+                    "sequence_id": data.sequence_id,
+                    "type": "client_info"
+                }));
+
+                // document.getElementById('asdf').addEventListener('keypress', function(e) {
+                //     if (e.keyCode === 13) {
+                //         ws.send()
+                //     }
+                // });
+                
+                
                 document.getElementById('expander').addEventListener('click', function () {
-                    if ( ! isIOS ) {
-                        navigator.getBattery().then(function (battery) {
-                            dummy.my_info.battery = battery.level * 100;
-                        });
-                    }
-
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition((pos) => {
-                            dummy.my_info.gps = [
-                                pos.coords.latitude, ' / ', pos.coords.longitude
-                            ].join('')
-                        });
-                    }
-                    
-                    alert(dummy.my_info.gps);
-
-
-
-
-
-
-                    console.log(dummy);
-
-
-
-
-
-
-
-
-
-                    // ws.send(dummy);
-
-
-
-                    // alert(level);
-                    // ws.send(dummy);
+                    ws.send(JSON.stringify(data));
                 });
 
                 ws.addEventListener('message', function (resp) {
-                    console.log(esp);
                     if (resp.isTrusted) {
-                        data = resp.data;
+                        data = JSON.parse(resp.data);
+                        console.log(data);
                     }
-
-                    // console.log(JSON.parse(esp.data));
                 });
             });
         });

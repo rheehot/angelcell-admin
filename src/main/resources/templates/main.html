@@ -79,9 +79,12 @@
                 type:'GET',
                 url:'/groups/'+groupId,
                 success: function(data) {
+                    const len = $('#test').children()
+                    console.log(len);
+                    console.log(data);
                     console.log(data[0].regdate)
                     var hText = '';
-                    for(var i = 0; i < data.length; i++){
+                    for(let i = 0, len = data.length; i < data.length; i++){
                         hText += '<tr data-node-id="'+groupId+'.'+(i+1)+'" data-node-pid="'+groupId+'">'
                         hText += '<td>'+data[0].regdate+'</td>';
                         hText +=    '<td>text of 1.1</td>'

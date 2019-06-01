@@ -29,19 +29,21 @@ public class HomeController {
 
 
     @GetMapping("/")
-    @ResponseBody
-    public Object mainPage() {
-        Map<String, Object> map = new HashMap<>();
+    public String mainPageView(Model model) {
         List<Users> userList = homeService.getUserDataList();
-        map.put("userList", userList);
-
-        return map;
+        model.addAttribute("userList", userList);
+        return "main";
     }
 
 
     @GetMapping("/chat")
     public String chatPage(){
         return "user/chat";
+    }
+
+    @GetMapping("/detail")
+    public String detailPage(){
+        return "user/detail";
     }
 
     @GetMapping("/users/{num}")

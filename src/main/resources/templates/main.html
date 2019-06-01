@@ -73,12 +73,14 @@
             });
 
             $('#test').on('click', function(e) {
+
                 e.preventDefault();
                 if (isClick) {
                     $target = $(e.target.parentElement);
                     if ($target.next().attr('data-node-id').split('.').length === 2) {
 
-                        $target.next().remove()
+                        $target.next().remove();
+
                     }else{
                         isClick = true;
                     }
@@ -92,7 +94,7 @@
                         method: 'get',
                         url : ['/groups/', nodeId].join(''),
                         success: function(data) {
-                            var hText = 0;
+                            var hText = '';
                             for (let i = 0, len = data.length; i < len; i++) {
                                 hText += '<tr data-node-id="' + groupId + '.' + (i) + '" data-node-pid="' + groupId + '">'
                                 hText += '<td>' + data[0].regdate + '</td>';
@@ -102,12 +104,16 @@
                                 hText += '<td>1</td>';
                                 hText += '</tr>'
                             }
-                            if ($target.next()) {
-                                if ($target.next().attr('data-node-id') === '1') {
+                            const $next = $target.next();
+                            if ($next.length) {
+                                console.log($next);
+                                if ( $next.attr('data-node-id').split('.').length !== 2) {
                                     $target.after(hText);
                                 }
                             } else {
-                                if ( $target.attr('data-node-id') === '1') {
+                                if ( $target.attr('data-node-id').split('.').length !== 2 ) {
+
+                                    console.log('asdf');
                                     $target.after(hText);
                                 }
                             }

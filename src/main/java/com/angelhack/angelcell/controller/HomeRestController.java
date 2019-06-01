@@ -12,7 +12,12 @@ import org.jsoup.helper.HttpConnection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * @author seha
@@ -38,13 +43,36 @@ public class HomeRestController {
     @PostMapping("/users/{num}/send")
     public int sendMessage(@PathVariable("num")Long num) throws IOException {
         int groupCount = homeService.getUserCountByGroupId(num);
-        log.debug("$$$"+groupCount);
-        HttpConnection.Response rs = (HttpConnection.Response) Jsoup
-                .connect("https://192.168.0.152")
-                .data("I_D", "a")
-                .data("P_W", "b")
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36")
-                .method(Connection.Method.POST).execute();
+
+        // request POST
+        URL url = new URL("http://localhost:4000/users/1/send");
+
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+
+        try (OutputStream out = conn.getOutputStream()) {
+//            out.write("id=javaking".getBytes());
+//            out.write("&".getBytes());
+//            out.write(("name=" + URLEncoder.encode("자바킹", "UTF-8")).getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (InputStream in = conn.getInputStream();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            byte[] buf = new byte[1024 * 8];
+            int length = 0;
+            while ((length = in.read(buf)) != -1) {
+                out.write(buf, 0, length);
+            }
+            System.out.println(new String(out.toByteArray(), "UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        conn.disconnect();
+
         return 0;
     }
 }

@@ -1,6 +1,5 @@
 package com.angelhack.angelcell.domain.home;
 
-import com.angelhack.angelcell.dto.UserSaveDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

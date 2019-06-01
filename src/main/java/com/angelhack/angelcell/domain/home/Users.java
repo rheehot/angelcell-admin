@@ -47,7 +47,7 @@ public class Users extends BaseTimeEntity {
 
     @Builder
     public Users(String hpno, Long groupId, Long battery, String myHost, String connectedHost,
-                 boolean isOnline, String latitude, String logitude, Set<Message> message) {
+                 boolean isOnline, String latitude, String logitude) {
         this.hpno = hpno;
         this.groupId = groupId;
         this.battery = battery;
@@ -56,6 +56,5 @@ public class Users extends BaseTimeEntity {
         this.isOnline = isOnline;
         this.latitude = latitude;
         this.logitude = logitude;
-        this.message = message;
     }
 }

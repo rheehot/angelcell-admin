@@ -98,17 +98,25 @@
                 }
             });
             let data = null;
+            
+            
+            document.getElementById('expander').addEventListener('click', function(){
+                navigator.getBattery().then(function(battery) {
+
+                    var level = battery.level;
+
+                    alert(level);
+                });
+            })
+
 
             
             ws.addEventListener('open', function(){
-                document.getElementById('expander').addEventListener('click', async function(){
-                    let getBatteryLevel = await Navigator.getBattery();
-                    getBatteryLevel = await getBatteryLevel.level * 100;
-
-
-                    alert(getBatteryLevel);
-                    // ws.send(dummy);
-                });
+                // document.getElementById('expander').addEventListener('click', function(){
+                    
+                    
+                //     // ws.send(dummy);
+                // });
                 
                 ws.addEventListener('message', function(resp) {
                     console.log(esp);

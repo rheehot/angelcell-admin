@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
  * @author seha
  * @date 2019-06-01
  */
-
 @RestController
 @AllArgsConstructor
 @Log4j2
@@ -21,6 +20,7 @@ public class HomeRestController {
 
     @Autowired
     private HomeService homeService;
+
 
     @PostMapping("/users/{num}")
     public Long regMessageByNum(@PathVariable("num") Long num, @RequestBody MessageSaveDto dto) {

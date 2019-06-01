@@ -33,7 +33,7 @@ public class Users extends BaseTimeEntity {
     private String logitude;
 
     @OneToMany(mappedBy = "num", cascade = {CascadeType.ALL})
-    private Set<Message> anonyboardsLike = new HashSet<>();
+    private Set<Message> message = new HashSet<>();
 
     @Builder
     public Users(String uuid, Long groups, String latitude, String logitude) {

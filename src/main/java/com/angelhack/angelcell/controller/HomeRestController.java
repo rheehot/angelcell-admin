@@ -7,9 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author seha
@@ -25,9 +23,10 @@ public class HomeRestController {
     private HomeService homeService;
 
     @PostMapping("/users/{num}")
-    public Long regMessageByNum(@PathVariable("num") Long num, MessageSaveDto dto) {
+    public Long regMessageByNum(@PathVariable("num") Long num, @RequestBody MessageSaveDto dto) {
         Users users = new Users();
         users.setNum(num);
+        dto.setNum(users);
         return homeService.regMessageByNum(dto);
     }
 }

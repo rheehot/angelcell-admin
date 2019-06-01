@@ -59,35 +59,16 @@
                                 </a>
                             </li>
                         </ul>
-                        <ul class="chat-list chat-user">
-                            <li>
+                        <ul id="asdf" class="chat-list chat-user">
+                            {{#each UserList}}
+                            <li id="user-list-{{num}}">
                                 <a href="##">
                                     <i class="fa fa-circle text-success"></i>
-                                    <span>Jonathan Smith</span>
+                                    <span>{{hpno}}</span>
                                     <i class="fa fa-times pull-right"></i>
                                 </a>
                             </li>
-                            <li>
-                                <a href="##">
-                                    <i class="fa fa-circle text-success"></i>
-                                    <span>Jhon Doe</span>
-                                    <i class="fa fa-times pull-right"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="##">
-                                    <i class="fa fa-circle text-muted"></i>
-                                    <span>Cendy Andrianto</span>
-                                    <i class="fa fa-times pull-right"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="##">
-                                    <i class="fa fa-circle text-danger"></i>
-                                    <span>Anjelina Joe</span>
-                                    <i class="fa fa-times pull-right"></i>
-                                </a>
-                            </li>
+                            {{/each}}
                         </ul>
                     </aside>
                     <!-- end:aside kiri chat room -->
@@ -153,5 +134,27 @@
         </div>
     </div>
 </div>
+
+<script>
+    window.addEventListener('load', function (ev) {
+        let nodeName = null;
+        document.getElementById('asdf').addEventListener('click', function (ev1) {
+            ev1.preventDefault();
+            nodeName = ev1.target.nodeName;
+            console.log(nodeName);
+            if (nodeName === 'SPAN') {
+                nodeName = ev1.target.parentElement.parentElement;
+
+            } else if (nodeName === 'A') {
+                nodeName = ev1.target.parentElement;
+            }
+            // if (ev)ev
+        });
+    });
+
+</script>
+
+
+
 </body>
 </html>

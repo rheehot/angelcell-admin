@@ -32,7 +32,17 @@ public class HomeController {
     public String mainPageView(Model model) {
         List<Users> userList = homeService.getUserDataList();
         model.addAttribute("userList", userList);
+        log.debug("!!!!!"+userList);
         return "main";
+    }
+
+    @GetMapping("/test")
+    @ResponseBody
+    public Object mainePageView() {
+        HashMap<String, Object> map = new HashMap<>();
+        List<Users> userList = homeService.getUserDataList();
+        map.put("userList", userList);
+        return map;
     }
 
 

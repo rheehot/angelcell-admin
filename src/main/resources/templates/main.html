@@ -33,12 +33,19 @@
                     <th scope="col">위치</th>
                     <th scope="col">최초사건 발생시간</th>
                     <th scope="col">커낵팅 수</th>
+                    <th scope="col">총인원</th>
                 </thead>
                 <tbody id="test">
                     {{#each userList}}
+                        {{#each message}}
+                            {{msg}}
+                        {{/each}}
                     <tr data-node-id="1">
-                        <td>{{battery}}</td>
-                        <td>{{connectedHost}}</td>
+                        <td>마루180</td>
+                        <td>{{logitude}}{{latitude}}</td>
+                        <td>{{regdate}}</td>
+                        <td>0</td>
+                        <td>1</td>
                     </tr>
                     {{/each}}
                     <tr data-node-id="1.1" data-node-pid="1">

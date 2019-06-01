@@ -36,6 +36,15 @@ public class HomeController {
         return "main";
     }
 
+    @GetMapping("/test")
+    @ResponseBody
+    public Object testPageView() {
+        HashMap<String, Object> map = new HashMap<>();
+        List<Users> userList = homeService.getUserDataList();
+        map.put("userList", userList);
+        return map;
+    }
+
     @GetMapping("/chat")
     public String chatPage(){
         return "user/chat";

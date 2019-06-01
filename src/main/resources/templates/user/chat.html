@@ -15,6 +15,9 @@
 </head>
 
 <body>
+
+
+
         <button type="button" id="expander">Expand All</button>
         <!-- <button type="button" id="collapser">Collapse All</button> -->
 
@@ -80,39 +83,73 @@
         window.addEventListener('load', function() {
             let level = null;
             const url = 'ws://192.168.0.152:8080/websocket';
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
             const ws = new WebSocket(url);
-            const dummy = JSON.stringify({
+            let dummy = {
                 "sequence_id": getUUID(),
                 "type": "query",
                 "query_type": "info",
                 "my_info": {
-                    "id": "01050282038",
-                    "battery": 100,
-                    "my_host": "192.168.0.1",
-                    "connected_host": "192.168.100.12",
+                    "battery": null,
                     "is_online": false,
-                    "gps": "37.4954178, 127.0366575,17z"
+                    "gps": null
                 }
-            });
-            let data = null;
+            };
             
-            document.getElementById('expander').addEventListener('click', function(){
-                navigator.getBattery().then(function(battery) {
 
-                    var level = battery.level;
-
-                    alert(level);
-                });
-            })
 
 
             
+
+
             ws.addEventListener('open', function(){
-                // document.getElementById('expander').addEventListener('click', function(){
-                    
-                    
-                //     // ws.send(dummy);
-                // });
+
+                
+                document.getElementById('expander').addEventListener('click', function(){
+                    if ( ! isIOS ) {
+                        navigator.getBattery().then(function(battery) {
+                            dummy.my_info.battery = battery.level * 100;
+                            
+                        });
+
+                    }
+
+
+
+                    navigator.geolocation.getCurrentPosition((pos) => {
+
+
+                        dummy.my_info.gps = [
+                            pos.coords.latitude, pos.coords.longitude
+                        ].join('');
+                    });
+
+
+
+                    alert(dummy.my_info.gps);
+
+
+
+
+
+
+                    console.log(dummy);
+
+
+
+
+
+
+
+
+
+                    // ws.send(dummy);
+
+
+
+                    // alert(level);
+                    // ws.send(dummy);
+                });
                 
                 ws.addEventListener('message', function(resp) {
                     console.log(esp);

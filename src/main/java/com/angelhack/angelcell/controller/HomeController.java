@@ -19,15 +19,17 @@ import java.util.Map;
  * @date 2019-06-01
  */
 
-@RestController
 @AllArgsConstructor
 @Log4j2
+@Controller
 public class HomeController {
 
     @Autowired
     private HomeService homeService;
 
+
     @GetMapping("/")
+    @ResponseBody
     public Object mainPage() {
         Map<String, Object> map = new HashMap<>();
         List<Users> userList = homeService.getUserDataList();
@@ -36,7 +38,14 @@ public class HomeController {
         return map;
     }
 
+
+    @GetMapping("/chat")
+    public String chatPage(){
+        return "user/chat";
+    }
+
     @GetMapping("/users/{num}")
+    @ResponseBody
     public Object getUserDetailPage(@PathVariable("num")Long num) {
         Map<String, Object> map = new HashMap<>();
         map.put("userDetail", homeService.getUserDetail(num));

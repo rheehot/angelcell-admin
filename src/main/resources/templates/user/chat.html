@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+
+    <style>
+        table { border: 1px solid #444444; border-collapse: collapse; }
+    
+    </style>
+</head>
+
+<body>
+
+
+
+        <button type="button" id="expander">Expand All</button>
+        <!-- <button type="button" id="collapser">Collapse All</button> -->
+
+    <table id="basic">
+        <tr data-node-id="1">
+            <td>1</td>
+            <td>text of 1</td>
+        </tr>
+        <tr data-node-id="1.1" data-node-pid="1">
+            <td>1.1</td>
+            <td>text of 1.1</td>
+        </tr>
+        <tr data-node-id="1.1.1" data-node-pid="1.1">
+            <td>1.1.1</td>
+            <td>text of 1.1.1</td>
+        </tr>
+        <tr data-node-id="1.1.2" data-node-pid="1.1">
+            <td>1.1.2</td>
+            <td>text of 1.1.2</td>
+        </tr>
+        <tr data-node-id="1.2" data-node-pid="1">
+            <td>1.2</td>
+            <td>text of 1.2</td>
+        </tr>
+        <tr data-node-id="1.2.1" data-node-pid="1.2">
+            <td>1.2.1</td>
+            <td>text of 1.2.1</td>
+        </tr>
+        <tr data-node-id="1.2.2" data-node-pid="1.2">
+            <td>1.2.2</td>
+            <td>text of 1.2.2</td>
+        </tr>
+        <tr data-node-id="2">
+            <td>2</td>
+            <td>text of 2</td>
+        </tr>
+        <tr data-node-id="2.1" data-node-pid="2">
+            <td>2.1</td>
+            <td>text of 2.1</td>
+        </tr>
+        <tr data-node-id="2.2" data-node-pid="2">
+            <td>2.2</td>
+            <td>text of 2.2</td>
+        </tr>
+    </table>
+
+
+
+    
+    <script>
+        const getUUID = () => {
+            const getRandString = () => ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            return [
+                getRandString(), getRandString(),
+                '-', getRandString(),
+                '-', getRandString(),
+                '-', getRandString(),
+                '-', getRandString(),
+                getRandString(),
+                getRandString()
+            ].join('');
+        };
+        window.addEventListener('load', function() {
+            let level = null;
+            const url = 'ws://192.168.0.152:8080/websocket';
+            const ws = new WebSocket(url);
+            const dummy = JSON.stringify({
+                "sequence_id": getUUID(),
+                "type": "query",
+                "query_type": "info",
+                "my_info": {
+                    "id": "01050282038",
+                    "battery": 100,
+                    "my_host": "192.168.0.1",
+                    "connected_host": "192.168.100.12",
+                    "is_online": false,
+                    "gps": "37.4954178, 127.0366575,17z"
+                }
+            });
+            let data = null;
+            
+            
+            document.getElementById('expander').addEventListener('click', function(){
+                navigator.getBattery().then(function(battery) {
+
+                    var level = battery.level;
+
+                    alert(level);
+                });
+            })
+
+
+            
+            ws.addEventListener('open', function(){
+                // document.getElementById('expander').addEventListener('click', function(){
+                    
+                    
+                //     // ws.send(dummy);
+                // });
+                
+                ws.addEventListener('message', function(resp) {
+                    console.log(esp);
+                    if ( resp.isTrusted ) {
+                        data = resp.data;
+                    }
+                    
+                    // console.log(JSON.parse(esp.data));
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

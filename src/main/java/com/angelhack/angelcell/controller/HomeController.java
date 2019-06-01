@@ -65,4 +65,13 @@ public class HomeController {
         return map;
     }
 
+    @GetMapping("/groups/{groupId}")
+    @ResponseBody
+    public Object getUserDataByGroupId(@PathVariable("groupId")Long groupId){
+        Map<String, Object> map = new HashMap<>();
+        map.put("UserDetail", homeService.getUserDetailByGroup(groupId));
+        return homeService.getUserDetailByGroup(groupId);
+    }
+
+
 }

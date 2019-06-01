@@ -51,4 +51,9 @@ public class HomeService {
     public int getUserCountByGroupId(Long groupno) {
         return usersRepository.getUserCountByGroupId(groupno);
     }
+
+    @Transactional
+    public List<Users> getUserDetailByGroup(Long groupId) {
+        return usersRepository.findAllByGroupId(groupId);
+    }
 }

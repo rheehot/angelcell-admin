@@ -22,5 +22,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             "FROM Users u " +
             "WHERE u.groupId = :groupId")
     int getUserCountByGroupId(@Param("groupId")Long groupId);
+
+    List<Users> findAllByGroupId(Long groupId);
 }
 

@@ -21,7 +21,6 @@ public class Message extends BaseTimeEntity {
 
     @JsonProperty("num")
     @ManyToOne
-    @JoinColumn(name="num", insertable = false)
     private Users num;
 
     private String phno;

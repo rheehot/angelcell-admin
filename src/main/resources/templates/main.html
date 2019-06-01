@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/main/main.css">
+
+
+    <link rel="stylesheet" href="../static/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/main/main.css">
+
+    <!-- <link rel="stylesheet" href="/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main/main.css"> -->
     <title>Document</title>
 </head>
 
@@ -36,31 +41,51 @@
                     <th scope="col">총인원</th>
                 </thead>
                 <tbody id="test">
-                    {{#each userList}}
-                    <tr data-node-id="{{groupId}}" id="node-{{groupId}}" onclick="onclickNode(1, '{{groupId}}')">
-                        <td>마루180</td>
-                        <td>{{logitude}}{{latitude}}</td>
-                        <td>{{regdate}}</td>
+
+                    <tr data-node-id="1">
+                        <td><span class="tree-icon" style="margin-left: 0px;"></span>마루180</td>
+                        <td>127.03883537.495707</td>
+                        <td>2019-06-01T18:06:31.852644</td>
+                        <td>0</td>
+                        <td>1</td>
+                       
+                    </tr>
+
+                    <tr data-node-id="1">
+                        <td><span class="tree-icon" style="margin-left: 0px;"></span>마루180</td>
+                        <td>127.03883537.495707</td>
+                        <td>2019-06-01T18:06:31.926511</td>
                         <td>0</td>
                         <td>1</td>
                     </tr>
-                    {{/each}}
+
+                    <tr data-node-id="1">
+                        <td><span class="tree-icon" style="margin-left: 0px;"></span>마루180</td>
+                        <td>127.03883537.495707</td>
+                        <td>2019-06-01T18:06:32.024268</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
 
 
+
+
+
+                    
                     <!--<tr data-node-id="2">-->
-                        <!--<td>2</td>-->
-                        <!--<td>text of 2</td>-->
-                        <!--<td>text of 2</td>-->
+                    <!--<td>2</td>-->
+                    <!--<td>text of 2</td>-->
+                    <!--<td>text of 2</td>-->
                     <!--</tr>-->
                     <!--<tr data-node-id="2.1" data-node-pid="2">-->
-                        <!--<td>2.1</td>-->
-                        <!--<td>text of 2.1</td>-->
-                        <!--<td>text of 2.1</td>-->
+                    <!--<td>2.1</td>-->
+                    <!--<td>text of 2.1</td>-->
+                    <!--<td>text of 2.1</td>-->
                     <!--</tr>-->
                     <!--<tr data-node-id="2.2" data-node-pid="2">-->
-                        <!--<td>2.2</td>-->
-                        <!--<td>text of 2.2</td>-->
-                        <!--<td>text of 2.2</td>-->
+                    <!--<td>2.2</td>-->
+                    <!--<td>text of 2.2</td>-->
+                    <!--<td>text of 2.2</td>-->
                     <!--</tr>-->
 
                 </tbody>
@@ -68,40 +93,150 @@
         </tbody>
     </table>
 
-    <script src="/vendor/jquery-3.2.1.min.js"></script>
+
+
+    <script src="../static/vendor/jquery-3.2.1.min.js"></script>
+
+    <script src="../static/vendor/simpleTreeTable/tree.js"></script>
+
+    <!-- <script src="/vendor/jquery-3.2.1.min.js"></script>
     <script src="/vendor/simpleTreeTable/tree.js"></script>
-    <script src="/js/main/main.js"></script>
+    <script src="/js/main/main.js"></script> -->
 
     <script>
         // let flag = true;
-        function onclickNode(nodeNo, groupId){
-            $.ajax({
-                type:'GET',
-                url:'/groups/'+groupId,
-                success: function(data) {
-                    const len = $('#test').children()
-                    console.log(len);
-                    console.log(data);
-                    console.log(data[0].regdate)
-                    var hText = '';
-                    for(let i = 0, len = data.length; i < data.length; i++){
-                        hText += '<tr data-node-id="'+groupId+'.'+(i+1)+'" data-node-pid="'+groupId+'">'
-                        hText += '<td>'+data[0].regdate+'</td>';
-                        hText +=    '<td>text of 1.1</td>'
-                        hText += '</tr>'
 
+
+        let isClick = false;
+
+
+        function asdf(nodeNo, groupId) {
+            let dummy = [{
+                battery: 100,
+                connectedHost: "01011111111",
+                groupId: 1,
+                hpno: "01000000001",
+                latitude: "37.495707",
+                logitude: "127.038835",
+                message: [{
+                        host: "2",
+                        idx: 2,
+                        moddate: "2019-06-01T18:06:31.97121",
+                        msg: "hihi",
+                        phno: "01000000001",
+                        regdate: "2019-06-01T18:06:31.97121",
+                        target: "notice",
+                    },
+                    {
+                        host: "2",
+                        idx: 3,
+                        moddate: "2019-06-01T18:06:32.058106",
+                        msg: "hihi",
+                        phno: "01003333001",
+                        regdate: "2019-06-01T18:06:32.058106",
+                        target: "notice",
+                    },
+                    {
+                        host: "1",
+                        idx: 1,
+                        moddate: "2019-06-01T18:06:31.878274",
+                        msg: "hihi",
+                        phno: "01000000001",
+                        regdate: "2019-06-01T18:06:31.878274",
+                        target: "notice",
                     }
-
-                    const $selector = $('#node-'+groupId);
-                    // if ( flag ) {
-                    //     $selector.append(hText);
-                    //     flag = false
-                    //
-                    // }
-                    $('#node-'+groupId).after(hText);
-                }
-            })
+                ],
+                moddate: "2019-06-01T18:06:31.852644",
+                myHost: "01022222222",
+                num: 1,
+                online: true,
+                regdate: "2019-06-01T18:06:31.852644"
+            }];
+            return dummy;
         }
+
+        
+        $(document).ready(function(){
+            let $target = null, nodeId = null;
+            $('#basic').simpleTreeTable({
+                collapser: $('#collapser')
+            });
+
+            $('#test').on('click', function(e) {
+                e.preventDefault();
+                if (isClick) {
+                    $target = $(e.target.parentElement);
+                    if ($target.next().attr('data-node-id').split('.').length === 2) {
+                        // console.log();
+
+                        $target.next().remove()
+                    }
+                    isClick = false;
+                } else {
+
+                    $target = $(e.target.parentElement);
+                    $.ajax({
+                        method: 'get',
+                        url : ['/groups/', nodeId].join(''),
+                        success: function(data) {
+                            for (let i = 0, len = data.length; i < len; i++) {
+                                hText += '<tr data-node-id="' + groupId + '.' + (i + 1) + '" data-node-pid="' + groupId + '">'
+                                hText += '<td>' + data[0].regdate + '</td>';
+                                hText += '<td>text of 1.1</td>'
+                                hText += '</tr>'
+                            }
+                            if ($target.next()) {
+                                if ($target.next().attr('data-node-id') === '1') {
+                                    $target.after(hText);
+                                }
+                            } else {
+                                if ( $target.attr('data-node-id') === '1') {
+                                    $target.after(hText);
+                                }
+                            }
+                            isClick = true;
+                        }
+                    });
+                }
+            });
+        })
+
+
+        
+
+
+        
+
+
+        // function onclickNode(nodeNo, groupId) {
+        //     $.ajax({
+        //         type: 'GET',
+        //         url: '/groups/' + groupId,
+        //         success: function (data) {
+        //             const len = $('#test').children().map((i) => i);
+        //             console.log(JSON.stringify(data[0]));
+        //             console.log(data[0].regdate)
+        //             var hText = '';
+
+        //             for (let i = 0, len = data.length; i < data.length; i++) {
+        //                 hText += '<tr data-node-id="' + groupId + '.' + (i + 1) + '" data-node-pid="' +
+        //                     groupId + '">'
+        //                 hText += '<td>' + data[0].regdate + '</td>';
+        //                 hText += '<td>text of 1.1</td>'
+        //                 hText += '</tr>'
+
+        //             }
+
+        //             const $selector = $('#node-' + groupId);
+        //             // if ( flag ) {
+        //             //     $selector.append(hText);
+        //             //     flag = false
+        //             //
+        //             // }
+        //             $('#node-' + groupId).after(hText);
+        //         }
+        //     })
+        // }
     </script>
 
 </body>

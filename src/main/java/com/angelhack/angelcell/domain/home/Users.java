@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author seha
@@ -26,23 +24,18 @@ public class Users extends BaseTimeEntity {
     @Column(name = "num")
     private Long num;
 
-    @Column(name = "uuid")
     private String uuid;
 
-    @OneToMany(mappedBy = "uuid", cascade = {CascadeType.ALL})
-    private Set<Message> message = new HashSet<>();
-
-    private Long group;
+    private Long groups;
 
     private Long latitude;
 
     private Long logitude;
 
     @Builder
-    public Users(String uuid, Set<Message> message, Long group, Long latitude, Long logitude) {
+    public Users(String uuid, Long groups, Long latitude, Long logitude) {
         this.uuid = uuid;
-        this.message = message;
-        this.group = group;
+        this.groups = groups;
         this.latitude = latitude;
         this.logitude = logitude;
     }
@@ -50,8 +43,7 @@ public class Users extends BaseTimeEntity {
     public Users toEntity() {
         return Users.builder()
                 .uuid(uuid)
-                .message(message)
-                .group(group)
+                .groups(groups)
                 .latitude(latitude)
                 .logitude(logitude)
                 .build();

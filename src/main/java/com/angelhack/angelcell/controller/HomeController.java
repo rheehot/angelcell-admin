@@ -24,7 +24,7 @@ public class HomeController {
     private HomeService homeService;
 
     @GetMapping("/")
-    public String mainPage() {
+    public String mainPage(Model model) {
         return "main";
     }
 

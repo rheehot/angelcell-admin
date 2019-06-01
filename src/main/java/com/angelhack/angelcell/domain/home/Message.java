@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @NoArgsConstructor
 @Getter
@@ -17,15 +20,14 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long num;
 
-    @ManyToOne
-    private Users uuid;
+    private String uuid;
 
     private String msg;
 
     private String host;
 
     @Builder
-    public Message(Users uuid, String host, String msg) {
+    public Message(String uuid, String host, String msg) {
         this.uuid = uuid;
         this.host = host;
         this.msg = msg;

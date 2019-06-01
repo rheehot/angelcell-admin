@@ -29,8 +29,7 @@ public class UsersResponseDto {
 
     public UsersResponseDto(Users entity) {
         uuid = entity.getUuid();
-        message = entity.getMessage();
-        group = entity.getGroup();
+        group = entity.getGroups();
         latitude = entity.getLatitude();
         longitude = entity.getLogitude();
         moddate = CommonUtil.toStringDateTime(entity.getModdate());

@@ -19,11 +19,11 @@ import java.util.List;
 @Log4j2
 public class HomeService {
 
-    private UsersRepository locationRepository;
+    private UsersRepository usersRepository;
 
     @Transactional(readOnly = true)
     public List<Users> getUserDataList() {
-        return locationRepository.findAll();
+        return usersRepository.findAll();
     }
 
 }

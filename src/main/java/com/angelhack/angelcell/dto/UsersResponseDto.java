@@ -17,8 +17,6 @@ import java.util.Set;
 public class UsersResponseDto {
     private String hpno;
 
-    private Set<Message> message = new HashSet<>();
-
     private Long groupId;
 
     private String latitude;

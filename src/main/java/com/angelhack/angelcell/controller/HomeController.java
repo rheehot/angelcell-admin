@@ -36,24 +36,9 @@ public class HomeController {
         return "main";
     }
 
-    @GetMapping("/test")
-    @ResponseBody
-    public Object mainePageView() {
-        HashMap<String, Object> map = new HashMap<>();
-        List<Users> userList = homeService.getUserDataList();
-        map.put("userList", userList);
-        return map;
-    }
-
-
     @GetMapping("/chat")
     public String chatPage(){
         return "user/chat";
-    }
-
-    @GetMapping("/detail")
-    public String detailPage(){
-        return "user/detail";
     }
 
     @GetMapping("/users/{num}")
@@ -72,6 +57,5 @@ public class HomeController {
         map.put("UserDetail", homeService.getUserDetailByGroup(groupId));
         return homeService.getUserDetailByGroup(groupId);
     }
-
 
 }

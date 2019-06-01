@@ -4,6 +4,7 @@ import com.angelhack.angelcell.biz.home.HomeService;
 import com.angelhack.angelcell.domain.home.Users;
 import com.angelhack.angelcell.dto.MessageSaveDto;
 import com.angelhack.angelcell.dto.MessageSendDto;
+import com.angelhack.angelcell.dto.UserSaveDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jsoup.Connection;
@@ -31,7 +32,10 @@ public class HomeRestController {
     @Autowired
     private HomeService homeService;
 
-
+    @PostMapping("/users")
+    public int regUserData(@RequestBody UserSaveDto dto){
+        return homeService.regOrModUserData(dto);
+    }
 
 
     @PostMapping("/users/{num}")
@@ -40,6 +44,18 @@ public class HomeRestController {
         users.setNum(num);
         dto.setNum(users);
         return homeService.regMessageByNum(dto);
+    }
+
+    @PostMapping("/users/{hpno}/delete")
+    public Long delUserData(@PathVariable("hpno") String hpno){
+        return homeService.delUserData(hpno);
+
+    }
+
+    @PostMapping("/users/{hpno}/state")
+    public int modUserDataCheckAlive(@PathVariable("hpno") String hpno, @RequestBody UserSaveDto dto){
+        dto.setHpno(hpno);
+        return homeService.modUserDataCheckAlive(dto);
     }
 
     @PostMapping("/users/{num}/send")

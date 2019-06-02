@@ -112,7 +112,7 @@
                         </div>
                         <footer>
                             <div class="chat-txt">
-                                <input type="text" class="form-control">
+                                <input type="text" id="inputBox" class="form-control">
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-white" data-original-title="" title=""><i
@@ -120,7 +120,7 @@
                                 <button type="button" class="btn btn-white" data-original-title="" title=""><i
                                         class=" fa fa-paperclip"></i></button>
                             </div>
-                            <button class="btn btn-danger" data-original-title="" title="">Send</button>
+                            <button id="sendMessage" class="btn btn-danger" data-original-title="" title="">Send</button>
                         </footer>
                     </aside>
                     <!-- end:aside tengah chat room -->
@@ -135,21 +135,43 @@
 
 <script>
     window.addEventListener('load', function (ev) {
+        
         let nodeName = null;
+        let userNum = null;
+
+        document.getElementById('sendMessage').addEventListener('click', function(e){
+            if ( userNum ) {
+                (async ()=> {
+                    const req = await fetch(`/users/${userNum}/send`, {
+                        method: 'post',
+                        data: JSON.stringify({
+                            num: userNum,
+                            dto: document.getElementById('inputBox').value
+                        })
+                    });
+                    const json = await req.json();
+                    console.log(json);
+                })()
+            }
+            // (async () => {
+            //     const req = await fetch(['/users/', userNum, {
+            //         method: 'post'
+            //     });
+            // });
+        })
+        
 
         document.getElementById('asdf').addEventListener('click', function (ev1) {
             ev1.preventDefault();
             nodeName = ev1.target.nodeName;
-            console.log(nodeName);
             if (nodeName === 'SPAN') {
                 nodeName = ev1.target.parentElement.parentElement;
 
             } else if (nodeName === 'A') {
                 nodeName = ev1.target.parentElement;
             }
-            console.log();
-
             (async() => {
+                userNum = nodeName.getAttribute('id').split('-')[2];
                 const d = await fetch(['/users/', nodeName.getAttribute('id').split('-')[2]].join(''), {
                     method: 'get'
                 });

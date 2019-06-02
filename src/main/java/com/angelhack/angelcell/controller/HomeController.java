@@ -1,6 +1,7 @@
 package com.angelhack.angelcell.controller;
 
 import com.angelhack.angelcell.biz.home.HomeService;
+import com.angelhack.angelcell.domain.home.Message;
 import com.angelhack.angelcell.domain.home.Users;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -32,16 +33,15 @@ public class HomeController {
     public String mainPageView(Model model) {
         List<Users> userList = homeService.getUserDataList();
         model.addAttribute("userList", userList);
-        log.debug("!!!!!" + userList);
         return "main";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/test/{num}")
     @ResponseBody
-    public Object testPageView() {
+    public Object testPageView(@PathVariable("num")Long num) {
         HashMap<String, Object> map = new HashMap<>();
-        List<Users> userList = homeService.getUserDataList();
-        map.put("userList", userList);
+        List<Message> userMessage= homeService.getUserMessage(num);
+        map.put("userMessage", userMessage);
         return map;
     }
 

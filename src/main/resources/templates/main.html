@@ -103,12 +103,12 @@
                             var hText = '';
                             for (let i = 0, len = data.length; i < len; i++) {
                                 hText += '<tr data-node-id="' + nodeId + '.' + (i) + '" data-node-pid="' + nodeId + '"';
-                                hText += 'onclick="goDetail('+nodeId+')">';
-                                hText += '<td>' + data[0].regdate + '</td>';
-                                hText += '<td>127.03883537.495707</td>';
-                                hText += '<td>2019-06-01T18:06:31.926511</td>';
-                                hText += '<td>0</td>';
+                                hText += 'onclick="goDetail('+nodeId+')" style="background-color:#cfcfcf;padding-left:30px">';
+                                hText += '<td>' + data[0].num + '</td>';
+                                hText += '<td>' + data[0].logitude+','+data[0].latitude + '</td>';
+                                hText += '<td>'+data[0].regdate+'</td>';
                                 hText += '<td>1</td>';
+                                hText += '<td>'+data.length+'</td>';
                                 hText += '</tr>'
                             }
                             const $next = $target.next();

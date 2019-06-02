@@ -45,7 +45,7 @@
                 <tbody id="test">
 
                     {{#each userList}}
-                    <tr data-node-id="{{@index}}">
+                    <tr data-groupId="{{groupId}}" data-node-id="{{@index}}">
                         <td><span class="tree-icon" style="margin-left: 0px;"></span>건물명</td>
                         <td>127.03883537.495707</td>
                         <td>2019-06-01T18:06:31.926511</td>
@@ -78,8 +78,14 @@
                 if (isClick) {
                     $target = $(e.target.parentElement);
                     if ($target.next().attr('data-node-id').split('.').length === 2) {
+                        const $chd = $(this).children();
+                        for (let i = 0, len = $chd.length; i < len; i++) {
+                            if ( $chd.eq(i).attr('data-node-id').split('.').length === 2 ) {
+                                $chd.eq(i).remove();
+                            }
+                        }
 
-                        $target.next().remove();
+                        // $target.next().remove();
 
                     }else{
                         isClick = true;
@@ -88,15 +94,16 @@
                 } else {
 
                     $target = $(e.target.parentElement);
-                    nodeId = 1
-                    var groupId = 1
+
+                    nodeId = $target.attr('data-groupid');
                     $.ajax({
                         method: 'get',
                         url : ['/groups/', nodeId].join(''),
                         success: function(data) {
                             var hText = '';
                             for (let i = 0, len = data.length; i < len; i++) {
-                                hText += '<tr data-node-id="' + groupId + '.' + (i) + '" data-node-pid="' + groupId + '">'
+                                hText += '<tr data-node-id="' + nodeId + '.' + (i) + '" data-node-pid="' + nodeId + '"';
+                                hText += 'onclick="goDetail('+nodeId+')">';
                                 hText += '<td>' + data[0].regdate + '</td>';
                                 hText += '<td>127.03883537.495707</td>';
                                 hText += '<td>2019-06-01T18:06:31.926511</td>';
@@ -105,15 +112,14 @@
                                 hText += '</tr>'
                             }
                             const $next = $target.next();
+
                             if ($next.length) {
-                                console.log($next);
                                 if ( $next.attr('data-node-id').split('.').length !== 2) {
                                     $target.after(hText);
                                 }
                             } else {
                                 if ( $target.attr('data-node-id').split('.').length !== 2 ) {
 
-                                    console.log('asdf');
                                     $target.after(hText);
                                 }
                             }
@@ -123,6 +129,10 @@
                 }
             });
         })
+
+        function goDetail(groupId){
+            location.href='/detail/'+groupId;
+        }
 
     </script>
 

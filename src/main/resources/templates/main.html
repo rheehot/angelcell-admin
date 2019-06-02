@@ -39,7 +39,8 @@
                     <th scope="col">건물명</th>
                     <th scope="col">위치</th>
                     <th scope="col">최초사건 발생시간</th>
-                    <th scope="col">커낵팅 수</th>
+                    <th scope="col">커넥팅 수</th>
+                    <th scope="col">배터리</th>
                     <th scope="col">총인원</th>
                 </thead>
                 <tbody id="test">
@@ -47,9 +48,10 @@
                     {{#each userList}}
                     <tr data-groupId="{{groupId}}" data-node-id="{{@index}}">
                         <td><span class="tree-icon" style="margin-left: 0px;"></span>건물명</td>
-                        <td>127.03883537.495707</td>
-                        <td>2019-06-01T18:06:31.926511</td>
-                        <td>0</td>
+                        <td>{{logitude}}{{latitude}}</td>
+                        <td>{{regdate}}</td>
+                        <td>2</td>
+                        <td>{{battery}}%</td>
                         <td>1</td>
                     </tr>
                     {{/each}}
@@ -108,6 +110,7 @@
                                 hText += '<td>' + data[0].logitude+','+data[0].latitude + '</td>';
                                 hText += '<td>'+data[0].regdate+'</td>';
                                 hText += '<td>1</td>';
+                                hText += '<td>'+data[0].battery+'%</td>';
                                 hText += '<td>'+data.length+'</td>';
                                 hText += '</tr>'
                             }

@@ -110,7 +110,7 @@
                             <div class="second-part">Thanks</div>
                             <div class="third-part">12:33</div>
                         </div>
-                        <footer>
+                        <footer id="foot">
                             <div class="chat-txt">
                                 <input type="text" id="inputBox" class="form-control">
                             </div>
@@ -139,7 +139,51 @@
         let nodeName = null;
         let userNum = null;
 
+
+        document.getElementById('asdf').addEventListener('click', function (ev1) {
+            ev1.preventDefault();
+            nodeName = ev1.target.nodeName;
+            if (nodeName === 'SPAN') {
+                nodeName = ev1.target.parentElement.parentElement;
+
+            } else if (nodeName === 'A') {
+                nodeName = ev1.target.parentElement;
+            }
+            (async() => {
+                userNum = nodeName.getAttribute('id').split('-')[2];
+            const d = await fetch(['/users/', nodeName.getAttribute('id').split('-')[2]].join(''), {
+                method: 'get'
+            });
+
+            const f = await d.json();
+
+            const aside = document.getElementsByClassName('tengah-side')[0];
+            const foot = document.getElementById('foot').outerHTML
+            const userData = f.userMessage;
+            let rlt = '';
+            for (let i = 0, tag = document.getElementsByClassName('tengah-side')[0].children, len = tag.length - 1; i < len; i++) {
+                rlt += tag[i].outerHTML;
+
+            }
+
+
+            for (let i in userData) {
+                rlt += `
+                        <div class="group-rom">
+                            <div class="first-part">${userData[i].host}</div>
+                            <div class="second-part">${userData[i].msg}</div>
+                            <div class="third-part">${userData[i].moddate.split('T')[1].split('T')[0].split('.')[0]}</div>
+                        </div>
+                    `;
+            }
+
+            aside.innerHTML = rlt + foot;
+
+            // console.log(userData)
+        })();
+
         document.getElementById('sendMessage').addEventListener('click', function(e){
+            console.log(userNum);
             if ( userNum ) {
                 (async ()=> {
                     const req = await fetch(`/users/${userNum}/send`, {
@@ -161,47 +205,7 @@
         })
         
 
-        document.getElementById('asdf').addEventListener('click', function (ev1) {
-            ev1.preventDefault();
-            nodeName = ev1.target.nodeName;
-            if (nodeName === 'SPAN') {
-                nodeName = ev1.target.parentElement.parentElement;
 
-            } else if (nodeName === 'A') {
-                nodeName = ev1.target.parentElement;
-            }
-            (async() => {
-                userNum = nodeName.getAttribute('id').split('-')[2];
-                const d = await fetch(['/users/', nodeName.getAttribute('id').split('-')[2]].join(''), {
-                    method: 'get'
-                });
-
-                const f = await d.json();
-
-                const aside = document.getElementsByClassName('tengah-side')[0];
-
-                const userData = f.userMessage;
-                let rlt = '';
-                for (let i = 0, tag = document.getElementsByClassName('tengah-side')[0].children, len = tag.length - 1; i < len; i++) {
-                    rlt += tag[i].outerHTML;
-
-                }
-
-
-                for (let i in userData) {
-                    rlt += `
-                        <div class="group-rom">
-                            <div class="first-part">${userData[i].host}</div>
-                            <div class="second-part">${userData[i].msg}</div>
-                            <div class="third-part">${userData[i].moddate.split('T')[1].split('T')[0].split('.')[0]}</div>
-                        </div>
-                    `;
-                }
-
-                aside.outerHTML = rlt;
-
-                // console.log(userData)
-            })();
 
             // if (ev)ev
             // $.ajax({

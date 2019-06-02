@@ -55,9 +55,12 @@ public class HomeRestController {
         return homeService.modUserDataCheckAlive(dto);
     }
 
+    //FIXME: 어드민에서 유저에게 메세지 보내는 부분 클라이언트 및 받는 서버 오류
     @PostMapping("/users/{num}/send")
-    public int sendMessage(@PathVariable("num")Long num) throws IOException {
-        int groupCount = homeService.getUserCountByGroupId(num);
+    public int sendMessage(@PathVariable("num")Long num, @RequestBody MessageSaveDto dto) throws IOException {
+        Users users = homeService.getUserDetail(num);
+
+        homeService.regMessageByNum(dto);
 
         // request POST
         URL url = new URL("http://localhost:4000/users/1/send");
@@ -70,7 +73,7 @@ public class HomeRestController {
         try (OutputStream out = conn.getOutputStream()) {
 //            out.write("id=javaking".getBytes());
 //            out.write("&".getBytes());
-//            out.write(("name=" + URLEncoder.encode("자바킹", "UTF-8")).getBytes());
+//            out.write(("name=" + URLEncoder.encode("자바자바", "UTF-8")).getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }

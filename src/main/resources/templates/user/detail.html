@@ -38,7 +38,7 @@
 </head>
 <body>
 <div class="Rectangle-Copy-2">
-    <div id="back-label"><label><b class="back-label">< '37.495707','127.038835'</b></label></div>
+    <div id="back-label"><label onclick="location.href='/'"><b class="back-label">< '37.495707','127.038835'</b></label></div>
 </div>
 
 <div class="container bootstrap snippets">
@@ -110,9 +110,9 @@
                             <div class="second-part">Thanks</div>
                             <div class="third-part">12:33</div>
                         </div>
-                        <footer>
+                        <footer id="foot">
                             <div class="chat-txt">
-                                <input type="text" class="form-control">
+                                <input type="text" id="inputBox" class="form-control">
                             </div>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-white" data-original-title="" title=""><i
@@ -120,7 +120,7 @@
                                 <button type="button" class="btn btn-white" data-original-title="" title=""><i
                                         class=" fa fa-paperclip"></i></button>
                             </div>
-                            <button class="btn btn-danger" data-original-title="" title="">Send</button>
+                            <button id="sendMessage" class="btn btn-danger" data-original-title="" title="">Send</button>
                         </footer>
                     </aside>
                     <!-- end:aside tengah chat room -->
@@ -135,51 +135,77 @@
 
 <script>
     window.addEventListener('load', function (ev) {
+        
         let nodeName = null;
+        let userNum = null;
+
 
         document.getElementById('asdf').addEventListener('click', function (ev1) {
             ev1.preventDefault();
             nodeName = ev1.target.nodeName;
-            console.log(nodeName);
             if (nodeName === 'SPAN') {
                 nodeName = ev1.target.parentElement.parentElement;
 
             } else if (nodeName === 'A') {
                 nodeName = ev1.target.parentElement;
             }
-            console.log();
-
             (async() => {
-                const d = await fetch(['/users/', nodeName.getAttribute('id').split('-')[2]].join(''), {
-                    method: 'get'
-                });
+                userNum = nodeName.getAttribute('id').split('-')[2];
+            const d = await fetch(['/users/', nodeName.getAttribute('id').split('-')[2]].join(''), {
+                method: 'get'
+            });
 
-                const f = await d.json();
+            const f = await d.json();
 
-                const aside = document.getElementsByClassName('tengah-side')[0];
+            const aside = document.getElementsByClassName('tengah-side')[0];
+            const foot = document.getElementById('foot').outerHTML
+            const userData = f.userMessage;
+            let rlt = '';
+            for (let i = 0, tag = document.getElementsByClassName('tengah-side')[0].children, len = tag.length - 1; i < len; i++) {
+                rlt += tag[i].outerHTML;
 
-                const userData = f.userMessage;
-                let rlt = '';
-                for (let i = 0, tag = document.getElementsByClassName('tengah-side')[0].children, len = tag.length - 1; i < len; i++) {
-                    rlt += tag[i].outerHTML;
-
-                }
+            }
 
 
-                for (let i in userData) {
-                    rlt += `
+            for (let i in userData) {
+                rlt += `
                         <div class="group-rom">
                             <div class="first-part">${userData[i].host}</div>
                             <div class="second-part">${userData[i].msg}</div>
                             <div class="third-part">${userData[i].moddate.split('T')[1].split('T')[0].split('.')[0]}</div>
                         </div>
                     `;
-                }
+            }
 
-                aside.outerHTML = rlt;
+            aside.innerHTML = rlt + foot;
 
-                // console.log(userData)
-            })();
+            // console.log(userData)
+        })();
+
+        document.getElementById('sendMessage').addEventListener('click', function(e){
+            console.log(userNum);
+            if ( userNum ) {
+                (async ()=> {
+                    const req = await fetch(`/users/${userNum}/send`, {
+                        method: 'post',
+                        data: JSON.stringify({
+                            num: userNum,
+                            dto: document.getElementById('inputBox').value
+                        })
+                    });
+                    const json = await req.json();
+                    console.log(json);
+                })()
+            }
+            // (async () => {
+            //     const req = await fetch(['/users/', userNum, {
+            //         method: 'post'
+            //     });
+            // });
+        })
+        
+
+
 
             // if (ev)ev
             // $.ajax({

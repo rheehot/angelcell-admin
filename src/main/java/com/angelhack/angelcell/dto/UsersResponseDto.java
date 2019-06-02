@@ -1,4 +1,4 @@
-package com.angelhack.angelcell.dto.user;
+package com.angelhack.angelcell.dto;
 
 import com.angelhack.angelcell.domain.home.Message;
 import com.angelhack.angelcell.domain.home.Users;
@@ -15,11 +15,9 @@ import java.util.Set;
 
 @Getter
 public class UsersResponseDto {
-    private String uuid;
+    private String hpno;
 
-    private Set<Message> message = new HashSet<>();
-
-    private Long group;
+    private Long groupId;
 
     private String latitude;
 
@@ -28,8 +26,8 @@ public class UsersResponseDto {
     private String moddate;
 
     public UsersResponseDto(Users entity) {
-        uuid = entity.getUuid();
-        group = entity.getGroups();
+        hpno = entity.getHpno();
+        groupId = entity.getGroupId();
         latitude = entity.getLatitude();
         longitude = entity.getLogitude();
         moddate = CommonUtil.toStringDateTime(entity.getModdate());

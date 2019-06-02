@@ -1,13 +1,141 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Main</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+    <link rel="stylesheet" href="/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main/main.css">
+
+    <style>
+        .Rectangle-Copy-2 {
+            width: 100%;
+            height: 10vh;
+            border: solid 1px #979797;
+            background-image: url("/img/desktop-topbar.jpg");
+        }
+
+        .main-table{
+            /*padding-right: 30%;*/
+        }
+
+    </style>
+
+    <title>Document</title>
 </head>
+
 <body>
-<h1>Detail</h1>
-{{#each userList}}
-{{uuid}}
-{{/each}}
-asdf
+<div class="Rectangle-Copy-2"></div>
+
+    <button style="display:none;" type="button" id="collapser">collapse</button>
+<div class="main-table">
+    <table class="table mb-0">
+        <tbody>
+            <table class="table" id="basic">
+                <thead class="thead-dark">
+                    <th scope="col">건물명</th>
+                    <th scope="col">위치</th>
+                    <th scope="col">최초사건 발생시간</th>
+                    <th scope="col">커낵팅 수</th>
+                    <th scope="col">총인원</th>
+                </thead>
+                <tbody id="test">
+
+                    {{#each userList}}
+                    <tr data-groupId="{{groupId}}" data-node-id="{{@index}}">
+                        <td><span class="tree-icon" style="margin-left: 0px;"></span>건물명</td>
+                        <td>127.03883537.495707</td>
+                        <td>2019-06-01T18:06:31.926511</td>
+                        <td>0</td>
+                        <td>1</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </tbody>
+    </table>
+</div>
+    <script src="/vendor/jquery-3.2.1.min.js"></script>
+
+    <script src="/vendor/simpleTreeTable/tree.js"></script>
+
+    <script>
+
+        let isClick = false;
+        
+        $(document).ready(function(){
+            let $target = null, nodeId = null;
+            $('#basic').simpleTreeTable({
+                collapser: $('#collapser')
+            });
+
+            $('#test').on('click', function(e) {
+
+                e.preventDefault();
+                if (isClick) {
+                    $target = $(e.target.parentElement);
+                    if ($target.next().attr('data-node-id').split('.').length === 2) {
+                        const $chd = $(this).children();
+                        for (let i = 0, len = $chd.length; i < len; i++) {
+                            if ( $chd.eq(i).attr('data-node-id').split('.').length === 2 ) {
+                                $chd.eq(i).remove();
+                            }
+                        }
+
+                        // $target.next().remove();
+
+                    }else{
+                        isClick = true;
+                    }
+                    isClick = false;
+                } else {
+
+                    $target = $(e.target.parentElement);
+
+                    nodeId = $target.attr('data-groupid');
+                    $.ajax({
+                        method: 'get',
+                        url : ['/groups/', nodeId].join(''),
+                        success: function(data) {
+                            var hText = '';
+                            for (let i = 0, len = data.length; i < len; i++) {
+                                hText += '<tr data-node-id="' + nodeId + '.' + (i) + '" data-node-pid="' + nodeId + '"';
+                                hText += 'onclick="goDetail('+nodeId+')">';
+                                hText += '<td>' + data[0].regdate + '</td>';
+                                hText += '<td>127.03883537.495707</td>';
+                                hText += '<td>2019-06-01T18:06:31.926511</td>';
+                                hText += '<td>0</td>';
+                                hText += '<td>1</td>';
+                                hText += '</tr>'
+                            }
+                            const $next = $target.next();
+
+                            if ($next.length) {
+                                if ( $next.attr('data-node-id').split('.').length !== 2) {
+                                    $target.after(hText);
+                                }
+                            } else {
+                                if ( $target.attr('data-node-id').split('.').length !== 2 ) {
+
+                                    $target.after(hText);
+                                }
+                            }
+                            isClick = true;
+                        }
+                    });
+                }
+            });
+        })
+
+        function goDetail(groupId){
+            location.href='/detail/'+groupId;
+        }
+
+    </script>
+
 </body>
+
 </html>

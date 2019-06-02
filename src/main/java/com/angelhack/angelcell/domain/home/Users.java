@@ -25,9 +25,17 @@ public class Users extends BaseTimeEntity {
     @Column(name = "num")
     private Long num;
 
-    private String uuid;
+    private String hpno;
 
-    private Long groups;
+    private Long groupId;
+
+    private Long battery;
+
+    private String myHost;
+
+    private String connectedHost;
+
+    private boolean isOnline;
 
     private String latitude;
 
@@ -38,11 +46,15 @@ public class Users extends BaseTimeEntity {
     private Set<Message> message = new HashSet<>();
 
     @Builder
-    public Users(String uuid, Long groups, String latitude, String logitude) {
-        this.uuid = uuid;
-        this.groups = groups;
+    public Users(String hpno, Long groupId, Long battery, String myHost, String connectedHost,
+                 boolean isOnline, String latitude, String logitude) {
+        this.hpno = hpno;
+        this.groupId = groupId;
+        this.battery = battery;
+        this.myHost = myHost;
+        this.connectedHost = connectedHost;
+        this.isOnline = isOnline;
         this.latitude = latitude;
         this.logitude = logitude;
     }
-
 }

@@ -38,7 +38,7 @@ public class HomeRestController {
     }
 
 
-    @PostMapping("/users/")
+    @PostMapping("/users/message")
     public Long regMessageByNum(@RequestBody MessageSaveDto dto) {
         return homeService.regMessageByNum(dto);
     }

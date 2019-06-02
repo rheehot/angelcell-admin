@@ -58,6 +58,7 @@ public class HomeService {
         return usersRepository.findAllByGroupId(groupId);
     }
 
+    @Transactional
     public int regOrModUserData(UserSaveDto dto) {
         int result = 0;
         if (usersRepository.findUsersByHpno(dto.getHpno()) > 0) {
